@@ -1,0 +1,16 @@
+version: '3'
+services:
+  db:
+    build: ./db-service
+    ports:
+      - "3306:3306"
+  web:
+      build: ./web-service
+      ports:
+       - "8123:8123"
+      depends_on:
+       - db
+      environment:
+       - DATABASE_HOST=db
+      volumes:
+       - ./web-service/api:/app/api
