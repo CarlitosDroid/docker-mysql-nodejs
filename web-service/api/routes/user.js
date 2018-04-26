@@ -13,7 +13,7 @@ var connection = dataBaseHandler.createConnection();
 router.use(function timeLog (req, res, next) {
     console.log('Time: ', Date.now())
     next()
-})
+});
 
 router.get('/', function (req, res, next) {
     connection.query('CALL sp_GetUser();', function (error, result, fields) {
@@ -34,12 +34,35 @@ router.get('/', function (req, res, next) {
     });
 });
 
-router.get('/:userId', function (req, res, next) {
-    console.log("AJAJAJ " + req.params.userId)
+router.post('/', function (req, res, next) {
+    console.log("FIRSTNAME " + req.body.firstName);
+    console.log("FIRSTNAME " + req.body.lastName);
+    console.log("FIRSTNAME " + req.body.email);
+    connection.query('CALL sp_PostUser(?,?,?);', [
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email
+    ], function (error, result, fields) {
+        if (error) throw error;
 
+        console.log(result.affectedRows);
+        if (result.affectedRows == 1) {
+            res.status(201).send({
+                status: "SUCCESS",
+                message: "User Inserted"
+            });
+        } else {
+            res.status(404).send({
+                status: "ERROR",
+                message: "Ocurriop un error"
+            });
+        }
+    });
 });
 
-router.post('/', function (req, res, next) {
+
+router.get('/:userId', function (req, res, next) {
+    console.log("AJAJAJ " + req.params.userId)
 
 });
 

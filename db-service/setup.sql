@@ -31,11 +31,11 @@ DELIMITER ;
 CALL sp_GetUserById(1);
 
 /* POST USER */
-DROP PROCEDURE IF EXISTS sp_PostCustomer;
+DROP PROCEDURE IF EXISTS sp_PostUser;
 DELIMITER //
-CREATE PROCEDURE sp_PostCustomer(IN _FirstName VARCHAR(40), IN _LastName VARCHAR(40), IN _Email VARCHAR(100))
+CREATE PROCEDURE sp_PostUser(IN _FirstName VARCHAR(40), IN _LastName VARCHAR(40), IN _Email VARCHAR(100))
   BEGIN
-    INSERT INTO CUSTOMER (FirstName, LastName, Email)
+    INSERT INTO USER (FirstName, LastName, Email)
     VALUES (_FirstName, _LastName, _Email);
   END //
 DELIMITER ;
@@ -62,3 +62,5 @@ CREATE PROCEDURE sp_DeleteUser(IN _userId INT)
   END //
 
 DELIMITER ;
+
+CALL sp_GetUser()
