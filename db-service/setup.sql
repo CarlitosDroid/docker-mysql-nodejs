@@ -51,3 +51,14 @@ CREATE PROCEDURE sp_UpdateUser(IN _userId INT, IN _FirstName VARCHAR(40), IN _La
   END //
 
 DELIMITER ;
+
+/* DELETE USER */
+DROP PROCEDURE IF EXISTS sp_DeleteUser;
+DELIMITER //
+CREATE PROCEDURE sp_DeleteUser(IN _userId INT)
+  BEGIN
+    DELETE FROM USER
+    WHERE Id = _userId;
+  END //
+
+DELIMITER ;
