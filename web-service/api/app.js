@@ -14,6 +14,6 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/', index);
-app.use('/user', user);
+app.use('/users', user);
 
 app.listen(8123);

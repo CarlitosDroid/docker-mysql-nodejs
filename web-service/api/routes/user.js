@@ -51,7 +51,7 @@ router.get('/:userId', function (req, res, next) {
             res.status(202).send({
                 status: "SUCCESS",
                 message: "User was found",
-                data: result[0]
+                data: result[0][0]
             });
         }
     });
@@ -59,18 +59,22 @@ router.get('/:userId', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    connection.query('CALL sp_PostUser(?,?,?);', [
-        req.body.firstName,
-        req.body.lastName,
-        req.body.email
-    ], function (error, result, fields) {
+    var post = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email
+    };
+    connection.query('INSERT INTO USER SET ?', post, function (error, result, fields) {
         if (error) throw error;
 
-        console.log(result.affectedRows);
+        console.log(result);
         if (result.affectedRows === 1) {
             res.status(201).send({
                 status: "SUCCESS",
-                message: "User Inserted"
+                message: "User Inserted",
+                data : {
+                    insertId: result.insertId
+                }
             });
         } else {
             res.status(404).send({
